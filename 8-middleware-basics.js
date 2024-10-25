@@ -1,4 +1,4 @@
-// Middleware Lessons
+// Middleware Basics Lessons
 
 const express = require('express');
 const app = express();
@@ -10,7 +10,6 @@ const logger = (req, res, next) => {
     const time = new Date().getFullYear();
     console.log(method, url, time);
     // res.send('Testing');
-    // you must pass off to the 'next()' middleware in order to avoid errors
     next();
 };
 
