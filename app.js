@@ -1,4 +1,4 @@
-// Middleware Lessons
+// Middleware 'USE' Lessons
 
 const express = require('express');
 const app = express();
@@ -14,6 +14,8 @@ const logger = (req, res, next) => {
     next();
 };
 
+// To add the Middelware, add it as a second argument
+// in any route you want to use it
 app.get('/', logger, (req, res) => {
     
     res.send('Home');
