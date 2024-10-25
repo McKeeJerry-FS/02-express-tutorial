@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 // import people router
 const people = require('./routes/people')
+const auth = require('./routes/auth')
 
 
 
@@ -15,15 +16,9 @@ app.use(express.json())
 
 // Use the People Router
 app.use('/api/people', people)
+app.use('/login', auth)
 
-app.post('/login', (req, res) => {
-  const { name } = req.body
-  if (name) {
-    return res.status(200).send(`Welcome ${name}`)
-  }
 
-  res.status(401).send('Please Provide Credentials')
-})
 
 
 app.listen(5000, () => {
