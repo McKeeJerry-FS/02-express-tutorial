@@ -1,54 +1,37 @@
-// Middleware 'USE' Lessons
-
-
-//1.use vs route
-//2.options - our own / express / third party
+// Methods Lessons
 
 const express = require('express');
 const app = express();
-const morgan = require('morgan');
-// logger Middleware is part of its own file and is imported here
-const logger = require('./logger-mw');
-const authorize = require('./authorize');
+let { people } = require('./data');
 
-// using '.use()' method to add the logger middleware to all routes in the app
-// ORDER MATTERS: the logger middleware must be placed before the routes
-// app.use(logger);
-
-// to use  multiple middlewares, you can pass them in as an array
-app.use(
-[
-    logger, 
-    morgan('tiny')
-]);
-
-// you can also apply it to paths
-// app.use('/api', logger);
-// this means that this middleware will be applied to any route that has '/api'
-
-app.get('/', (req, res) => {
-    
-    res.send('Home');
+// Get all People
+// ./api/people
+app.get('/api/people', (req, res) => {
+    res.status(200).json({ success: true, data: people });
 });
 
-app.get('/about',(req, res) => {
-
-    res.send('About');
+// Get Single Person
+// ./api/people/:id
+app.get('/api/people/:id', (req, res) => {
+    const { id } = req.params;
+    const person = people.find((person) => person.id === Number(id));
+    if (!person) {
+        return res.status(404).json({ success: false, msg: `No person with id ${id}` });
+    }
+    res.status(200).json({ success: true, data: person });
 });
-
-app.get('/api/products',(req, res) => {
-    console.log(req.user);
-    res.send('Products Page');
-});
-
-// you can also apply multiple middleware to specific routes
-// by passing in the middleware as an array
-app.get('/api/customers',(req, res) => {
-
-    res.send('Customers Page');
-});
-
 
 app.listen(5000, () => {
     console.log('Server is running on port 5000....');
 });
+
+// HTTP Methods
+
+// GET - Read Data
+// POST - Insert Data
+// PUT - Update Data
+// DELETE - Delete Data
+// PATCH - Partial Update Data
+// OPTIONS - Get Information about the communication options available
+// HEAD - Get the headers only
+
