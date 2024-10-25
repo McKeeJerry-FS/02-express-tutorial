@@ -6,6 +6,7 @@
 
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
 // logger Middleware is part of its own file and is imported here
 const logger = require('./logger-mw');
 const authorize = require('./authorize');
@@ -18,7 +19,7 @@ const authorize = require('./authorize');
 app.use(
 [
     logger, 
-    authorize
+    morgan('tiny')
 ]);
 
 // you can also apply it to paths
