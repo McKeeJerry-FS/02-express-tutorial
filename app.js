@@ -1,5 +1,9 @@
 // Middleware 'USE' Lessons
 
+
+//1.use vs route
+//2.options - our own / express / third party
+
 const express = require('express');
 const app = express();
 // logger Middleware is part of its own file and is imported here
@@ -36,6 +40,8 @@ app.get('/api/products',(req, res) => {
     res.send('Products Page');
 });
 
+// you can also apply multiple middleware to specific routes
+// by passing in the middleware as an array
 app.get('/api/customers',(req, res) => {
 
     res.send('Customers Page');
