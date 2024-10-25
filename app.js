@@ -2,28 +2,43 @@
 
 const express = require('express');
 const app = express();
-// req => middleware(some kind of functionality) => res
+// logger Middleware is part of its own file and is imported here
+const logger = require('./logger-mw');
+const authorize = require('./authorize');
 
-const logger = (req, res, next) => {
-    const method = req.method;
-    const url = req.url;
-    const time = new Date().getFullYear();
-    console.log(method, url, time);
-    // res.send('Testing');
-    // you must pass off to the 'next()' middleware in order to avoid errors
-    next();
-};
+// using '.use()' method to add the logger middleware to all routes in the app
+// ORDER MATTERS: the logger middleware must be placed before the routes
+// app.use(logger);
 
-// To add the Middelware, add it as a second argument
-// in any route you want to use it
-app.get('/', logger, (req, res) => {
+// to use  multiple middlewares, you can pass them in as an array
+app.use(
+[
+    logger, 
+    authorize
+]);
+
+// you can also apply it to paths
+// app.use('/api', logger);
+// this means that this middleware will be applied to any route that has '/api'
+
+app.get('/', (req, res) => {
     
     res.send('Home');
 });
 
-app.get('/about', logger, (req, res) => {
+app.get('/about',(req, res) => {
 
     res.send('About');
+});
+
+app.get('/api/products',(req, res) => {
+    console.log(req.user);
+    res.send('Products Page');
+});
+
+app.get('/api/customers',(req, res) => {
+
+    res.send('Customers Page');
 });
 
 
